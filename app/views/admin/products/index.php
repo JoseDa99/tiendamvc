@@ -19,7 +19,18 @@
                         <td class="text-center"><?= $product->id ?></td>
                         <td class="text-center"><?= $data['type'][$product->type - 1]->description ?></td>
                         <td class="text-center"><?= $product->name ?></td>
-                        <td class="text-center"><?= html_entity_decode($product->description) ?></td>
+                        <?php
+                        $descripcion =  strip_tags(html_entity_decode($product->description));
+                        $descripcion = str_replace("&nbsp;", " ", $descripcion);
+                        if (strlen($descripcion) > 30) {
+                            $product->description = substr($descripcion, 0, 30) . '...';
+                        ?>
+                            <td class="text-center"><?= $product->description ?></td>
+                        <?php } else {
+                            $product->description = $descripcion
+                        ?>
+                            <td class="text-center"><?= $product->description ?></td>
+                        <?php } ?>
                         <td class="text-center">
                             <a href="<?= ROOT ?>adminProduct/update/<?= $product->id ?>" class="btn btn-info">Editar</a>
                         </td>
